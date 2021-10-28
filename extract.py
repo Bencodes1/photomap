@@ -4,9 +4,20 @@ import exifread
 import os
 
 
-# img_path = '/Users/benchalmers/Documents/photomap/pics/IMG_9194.TIFF'
-directory = '/Users/benchalmers/Documents/photomap/pics/'
 
+
+
+# loop thru directory extracting relevant data for files,
+# output dict of image: tuple
+def files_puller(directory):
+    data_dict = {}
+    for filename in os.listdir(directory):
+        if filename.endswith('.tiff'): 
+            img_path = os.path.join(directory, filename)
+            data_dict[filename] = pulling_vars(img_path)  
+        else: 
+            continue
+    return(data_dict)
 
 # Converts GPS coords from deg/min/sec to decimal
 def decimal_coords(coords, ref):
@@ -14,7 +25,6 @@ def decimal_coords(coords, ref):
     if ref == 'S' or ref == 'W':
         decimal_degrees *= -1
     return decimal_degrees
-
 
 # Custom float conversion since fractions in GPS data causing bugs
 def convert_to_float(frac_str):
@@ -29,20 +39,6 @@ def convert_to_float(frac_str):
             whole = 0
         frac = float(num) / float(denom)
         return whole - frac if whole < 0 else whole + frac
-
-
-# loop thru directory extracting relevant data for files,
-# output dict of image: tuple
-def files_puller():
-    data_dict = {}
-    for filename in os.listdir(directory):
-        if filename.endswith('.tiff'): # or filename.endswith('.mov')
-            img_path = os.path.join(directory, filename)
-            data_dict[filename] = pulling_vars(img_path)  
-        else: 
-            continue
-    return(data_dict)
-
 
 def pulling_vars(img_path):
     with open(img_path, 'rb') as src:
@@ -79,13 +75,7 @@ def pulling_vars(img_path):
         return(vars_dict)
 
 
-print(files_puller())
+print(files_puller('/Users/benchalmers/Documents/photomap/pics/'))
 
 
 
-
-# Next steps: 
-
-# 3. make it so it loops through file list and gets it from all 
-#     images/files if they have exif
-# 4. output from this file should be dictionary: image filename as key, tuple of GPS and alt as value 
