@@ -9,6 +9,7 @@ pillow = "*"
 pipenv = "*"
 install = "*"
 exifread = "*"
+tk = "*"
 
 [dev-packages]
 

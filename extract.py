@@ -2,9 +2,14 @@
 import PIL
 import exifread
 import os
+from tkinter import Tk
+from tkinter.filedialog import askdirectory
 
 
 
+# This asks the user to select the folder they're extracting from
+path = askdirectory(title='Select Folder of Image Files you would like to extract') # shows dialog box and return the path
+print(path) 
 
 
 # loop thru directory extracting relevant data for files,
@@ -40,6 +45,7 @@ def convert_to_float(frac_str):
         frac = float(num) / float(denom)
         return whole - frac if whole < 0 else whole + frac
 
+# Extracts exif from images in folder, exports as dictionary of info
 def pulling_vars(img_path):
     with open(img_path, 'rb') as src:
         # print ("Source Image:", src.name)
@@ -75,7 +81,8 @@ def pulling_vars(img_path):
         return(vars_dict)
 
 
-print(files_puller('/Users/benchalmers/Documents/photomap/pics/'))
+# print(files_puller('/Users/benchalmers/Documents/photomap/pics/'))
+print(files_puller(path))
 
 
 
